@@ -26,9 +26,7 @@
     <p v-show="!show">Hello Vue.js</p>
 
     <button @click="show = !show">切り替え</button>
-    <trasition>
-        <p v-if="show">{{ message }}</p>
-    </trasition>
+    <p v-if="show">{{ message }}</p>
 </div>
 
 <script src="./dist/main.js"></script>
