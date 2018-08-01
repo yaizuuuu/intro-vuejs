@@ -1,3 +1,5 @@
+const { VueLoaderPlugin } = require('vue-loader');
+
 // [定数] webpack の出力オプションを指定します
 // 'production' か 'development' を指定
 const MODE = 'development';
@@ -26,6 +28,23 @@ module.exports = {
 
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        // Babel のオプションを指定する
+        options: {
+          presets: [
+            // env を指定することで、ES2018 を ES5 に変換。
+            // {modules: false}にしないと import 文が Babel によって CommonJS に変換され、
+            // webpack の Tree Shaking 機能が使えない
+            ['env', {'modules': false}]
+          ]
+        }
+      },
       // Sassファイルの読み込みとコンパイル
       {
         test: /\.scss/, // 対象となるファイルの拡張子
@@ -90,4 +109,17 @@ module.exports = {
       }
     ],
   },
+  // Webpackでvueを利用するときの設定
+  resolve: {
+
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js'
+    },
+    extensions: ['*', '.js', '.vue', '.json']
+  },
+  plugins: [
+    // Vueを読み込めるようにするため
+    new VueLoaderPlugin,
+  ],
+
 };

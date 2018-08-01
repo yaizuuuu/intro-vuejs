@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<div id="chapter1_1">
+    <p>{{ message }}</p>
+</div>
+
+<div id="chapter1_5">
+    <ol>
+        <li v-for="item in list">
+            {{ item }}
+        </li>
+    </ol>
+
+    <button v-on:click="handlerClick">Click</button>
+    <button @click="handlerClick">Click</button>
+
+    <p>{{ message }}</p>
+    <input v-model="message">
+
+    <p v-show="show">Hello Vue.js</p>
+    <p v-show="!show">Hello Vue.js</p>
+
+    <button @click="show = !show">切り替え</button>
+    <trasition>
+        <p v-if="show">{{ message }}</p>
+    </trasition>
+</div>
 
 <script src="./dist/main.js"></script>
 </body>
