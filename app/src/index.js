@@ -1,31 +1,39 @@
-import Vue from 'vue'
-import './index.scss'
+import Vue from "vue";
+import "./index.scss";
 
-const Chapter1_1 = new Vue({
-  el: '#chapter1_1',
+const Chapter1x1 = new Vue({
+  el: "#chapter1_1",
   data: {
-    message: 'Hello World!!',
-  },
-})
+    message: "Hello World!!"
+  }
+});
 // Chapter1.data.messageではない
-console.log(Chapter1_1.message)
+console.log(Chapter1x1.message);
 
-const Chapter1_5 = new Vue({
-  el: '#chapter1_5',
+const Chapter1x5 = new Vue({
+  el: "#chapter1_5",
   data: {
-    list: [
-      'りんご',
-      'ばなな',
-      'いちご',
-    ],
-    message: '初期メッセージ',
-    show: true,
+    list: ["りんご", "ばなな", "いちご"],
+    message: "初期メッセージ",
+    show: true
   },
   methods: {
     handlerClick(event) {
       alert(event.target);
       console.log(event.target, event);
     }
+  }
+});
+Chapter1x5.list.push("おれんじ");
+
+const Chapter2x8 = new Vue({
+  el: "#chapter2_8",
+  data: {
+    style: "bold",
+    scroll: 0
   },
-})
-Chapter1_5.list.push('おれんじ')
+  mounted() {
+    this.scroll = 100;
+  }
+});
+console.log(Chapter2x8);

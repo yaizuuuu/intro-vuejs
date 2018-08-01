@@ -27,6 +27,18 @@
 
     <button @click="show = !show">切り替え</button>
     <p v-if="show">{{ message }}</p>
+
+</div>
+
+<div id="chapter2_8">
+    <p>{{ 1 + 1 }}</p>
+    <p v-bind:class="style">{{ 2 / 2 }}</p>
+    <p :class="style">{{ 2 / 2 }}</p>
+    <input type="text" :value="style">
+    <!-- .propでDOMプロパティとしてバインドできる -->
+    <p :text-content.prop="style"></p>
+    <!-- $dataでJSONとしてdataの中身が取得できる -->
+    <div :scroll-top.prop="scroll">{{ $data }}</div>
 </div>
 
 <script src="./dist/main.js"></script>
