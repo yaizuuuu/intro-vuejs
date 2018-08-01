@@ -5,18 +5,25 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "lint": "eslint"
   },
-
   "devDependencies": {
     "autoprefixer": "^9.0.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "css-loader": "^1.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-vue": "^4.7.1",
     "file-loader": "^1.1.11",
     "node-sass": "^4.9.2",
     "postcss-loader": "^2.1.6",
+    "prettier": "^1.14.0",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",

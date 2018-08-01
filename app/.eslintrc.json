@@ -1,0 +1,13 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    "plugin:vue/recommended"
+  ],
+  "globals": {
+    "document": true
+  }
+}
