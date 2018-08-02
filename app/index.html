@@ -39,6 +39,9 @@
     <p :text-content.prop="style"></p>
     <!-- $dataでJSONとしてdataの中身が取得できる -->
     <div :scroll-top.prop="scroll">{{ $data }}</div>
+    <p>{{ count }}回クリックしたよ</p>
+    <button @click="increment">カウントを増やす</button>
+    <button @click="incrementDelay">ちょこっと遅れてカウントを増やす</button>
 </div>
 
 <script src="./dist/main.js"></script>

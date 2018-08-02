@@ -4,9 +4,12 @@
   },
   "extends": [
     "airbnb-base",
-    "prettier",
-    "plugin:vue/recommended"
+    "plugin:vue/recommended",
+    "plugin:prettier/recommended"
   ],
+  "rules": {
+    "prettier/prettier": []
+  },
   "globals": {
     "document": true
   }

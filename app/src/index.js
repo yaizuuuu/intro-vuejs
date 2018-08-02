@@ -30,10 +30,21 @@ const Chapter2x8 = new Vue({
   el: "#chapter2_8",
   data: {
     style: "bold",
-    scroll: 0
+    scroll: 0,
+    count: 0
   },
   mounted() {
     this.scroll = 100;
+  },
+  methods: {
+    increment() {
+      this.count += 1;
+    },
+    incrementDelay() {
+      setTimeout(() => {
+        this.count += 1;
+      }, 300);
+    }
   }
 });
 console.log(Chapter2x8);
