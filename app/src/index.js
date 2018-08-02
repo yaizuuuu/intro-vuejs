@@ -31,7 +31,30 @@ const Chapter2x8 = new Vue({
   data: {
     style: "bold",
     scroll: 0,
-    count: 0
+    count: 0,
+    isChild: true,
+    isActive: true,
+    textColor: "red",
+    backgroundColor: "lightgray",
+    classObject: {
+      child: true,
+      "is-active": false
+    },
+    styleObject: {
+      backgroundColor: "red",
+      // TODO: widthは渡せない??調べる
+      width: 600,
+      color: "white"
+    },
+    // 属性をそのまま渡せる
+    item: {
+      id: 1,
+      src: "item1.jpg",
+      alt: "商品1サムネイル",
+      width: 250,
+      height: 200
+    },
+    radius: 50
   },
   mounted() {
     this.scroll = 100;

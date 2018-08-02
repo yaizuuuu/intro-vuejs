@@ -35,13 +35,36 @@
     <p v-bind:class="style">{{ 2 / 2 }}</p>
     <p :class="style">{{ 2 / 2 }}</p>
     <input type="text" :value="style">
+
     <!-- .propでDOMプロパティとしてバインドできる -->
     <p :text-content.prop="style"></p>
     <!-- $dataでJSONとしてdataの中身が取得できる -->
     <div :scroll-top.prop="scroll">{{ $data }}</div>
+
     <p>{{ count }}回クリックしたよ</p>
     <button @click="increment">カウントを増やす</button>
     <button @click="incrementDelay">ちょこっと遅れてカウントを増やす</button>
+
+    <!-- class, style属性はオブジェクト形式で値を渡せる -->
+    <p :class="{ child: isChild, 'is-active': isActive }">Text</p>
+    <!-- style属性のプロパティはJavascriptと同様にcamelケースで表せる -->
+    <p :style="{ color: textColor, backgroundColor: backgroundColor }">Text</p>
+    <!-- 三項演算子は配列リテラルで使用できる -->
+    <!-- 冗長なので算出プロパティを使用したほうがいい(computed) -->
+    <p :class="[!isActive ? 'active' : 'normal']">Text</p>
+    <!-- style, class属性はそのままオブジェクトも渡せる -->
+    <p :class="classObject">Text</p>
+    <p :style="styleObject">Text</p>
+
+    <!-- 属性とプロパティをそのまま渡せる, その場合はv-bindを使用する -->
+    <img v-bind="item"/>
+    <!-- 値の上書きもできる -->
+    <img v-bind="item" :id="'id-' + item.id"/>
+
+    <svg xmls="http://www.w3.org/2000/svg" version="1.1">
+        <circle cx="100" cy="75" :r="radius" fill="lightpink"></circle>
+    </svg>
+    <input type="range" min="0" max="100" v-model="radius">
 </div>
 
 <script src="./dist/main.js"></script>
