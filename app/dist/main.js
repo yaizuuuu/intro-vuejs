@@ -13381,7 +13381,7 @@
             },
             styleObject: {
               backgroundColor: "red",
-              // TODO: widthは渡せない??調べる
+              // TODO: style属性でwidthは渡せない??調べる
               width: 600,
               color: "white"
             },
@@ -13390,6 +13390,7 @@
               id: 1,
               src: "item1.jpg",
               alt: "商品1サムネイル",
+              // width属性なら渡せる
               width: 250,
               height: 200
             },
@@ -13413,6 +13414,64 @@
           }
         });
         console.log(Chapter2x8);
+
+        var Chapter2x9 = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
+          el: "#chapter2_9",
+          data: {
+            isDisplay: true,
+            type: "C",
+            isLoaded: true,
+            list: {
+              item1: 1,
+              item2: 2,
+              item3: 3
+            },
+            name: "キマイラ",
+            monsters: [
+              { id: 1, name: "スライム", hp: 100 },
+              { id: 2, name: "ゴブリン", hp: 200 },
+              { id: 3, name: "ドラゴン", hp: 500 }
+            ]
+          },
+          created: function created() {
+            var _this2 = this;
+
+            this.monsters.forEach(function(item) {
+              _this2.$set(item, "isActive", false);
+            });
+
+            this.$set(this.monsters, 0, {
+              id: 1,
+              name: "キングスライム",
+              hp: 1000
+            });
+
+            this.monsters = this.monsters.filter(function(el) {
+              return el.hp >= 300;
+            });
+          },
+
+          methods: {
+            doAdd: function doAdd() {
+              var max = this.monsters.reduce(function(a, b) {
+                return a > b.id ? a : b.id;
+              }, 0);
+
+              this.monsters.push({
+                id: max + 1,
+                name: this.name,
+                hp: 500
+              });
+            },
+            doRemove: function doRemove(index) {
+              this.monsters.splice(index, 1);
+            },
+            doAttack: function doAttack(index) {
+              this.monsters[index].hp -= 10;
+            }
+          }
+        });
+        console.log(Chapter2x9);
 
         /***/
       },

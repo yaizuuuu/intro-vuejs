@@ -42,7 +42,7 @@ const Chapter2x8 = new Vue({
     },
     styleObject: {
       backgroundColor: "red",
-      // TODO: widthは渡せない??調べる
+      // TODO: style属性でwidthは渡せない??調べる
       width: 600,
       color: "white"
     },
@@ -51,6 +51,7 @@ const Chapter2x8 = new Vue({
       id: 1,
       src: "item1.jpg",
       alt: "商品1サムネイル",
+      // width属性なら渡せる
       width: 250,
       height: 200
     },
@@ -71,3 +72,54 @@ const Chapter2x8 = new Vue({
   }
 });
 console.log(Chapter2x8);
+
+const Chapter2x9 = new Vue({
+  el: "#chapter2_9",
+  data: {
+    isDisplay: true,
+    type: "C",
+    isLoaded: true,
+    list: {
+      item1: 1,
+      item2: 2,
+      item3: 3
+    },
+    name: "キマイラ",
+    monsters: [
+      { id: 1, name: "スライム", hp: 100 },
+      { id: 2, name: "ゴブリン", hp: 200 },
+      { id: 3, name: "ドラゴン", hp: 500 }
+    ]
+  },
+  created() {
+    this.monsters.forEach(item => {
+      this.$set(item, "isActive", false);
+    });
+
+    this.$set(this.monsters, 0, {
+      id: 1,
+      name: "キングスライム",
+      hp: 1000
+    });
+
+    this.monsters = this.monsters.filter(el => el.hp >= 300);
+  },
+  methods: {
+    doAdd() {
+      const max = this.monsters.reduce((a, b) => (a > b.id ? a : b.id), 0);
+
+      this.monsters.push({
+        id: max + 1,
+        name: this.name,
+        hp: 500
+      });
+    },
+    doRemove(index) {
+      this.monsters.splice(index, 1);
+    },
+    doAttack(index) {
+      this.monsters[index].hp -= 10;
+    }
+  }
+});
+console.log(Chapter2x9);

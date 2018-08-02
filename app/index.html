@@ -22,10 +22,13 @@
     <p>{{ message }}</p>
     <input v-model="message">
 
+    <!-- display: none になる, 後々に表示する可能性があるならこちらのほうがパフォーマンスがいい -->
     <p v-show="show">Hello Vue.js</p>
     <p v-show="!show">Hello Vue.js</p>
 
     <button @click="show = !show">切り替え</button>
+
+    <!-- 監視が破棄される -->
     <p v-if="show">{{ message }}</p>
 
 </div>
@@ -65,6 +68,44 @@
         <circle cx="100" cy="75" :r="radius" fill="lightpink"></circle>
     </svg>
     <input type="range" min="0" max="100" v-model="radius">
+</div>
+
+<div id="chapter2_9">
+    <!-- templateタグでまとめて表示非表示ができる(v-showはつかえない) -->
+    <template v-if="isDisplay">
+        <header>タイトル</header>
+        <div>コンテンツ</div>
+    </template>
+
+    <div v-if="type === 'A'">typeはA</div>
+    <div v-else-if="type === 'B'">typeはB</div>
+    <div v-else=>typeはC</div>
+
+    <div v-if="isLoaded" key="content-visible">
+        content
+    </div>
+    <div v-else key="content-loading">
+        loading now...
+    </div>
+
+    <!-- 同じ親要素の中でv-forは2回使えない -->
+    <ul>
+        <li v-for="(item, key, index) in list">{{ item }}{{ key }}{{ index }}</li>
+    </ul>
+
+    <input type="text" v-model="name"/>
+    <button @click="doAdd">モンスターを追加</button>
+    <ul>
+        <li v-for="(monster, index) in monsters"
+            :key="monster.id"
+            :class="{ strong: monster.hp > 300 }">
+            ID:{{ monster.id }} {{ monster.name }} HP.{{ monster.hp }}
+            <span v-if="monster.hp > 300">つよい！</span>
+            <span v-if="monster.hp < 50">瀕死</span>
+            <button @click="doRemove(index)">[x]</button>
+            <button @click="doAttack(index)">攻撃する</button>
+        </li>
+    </ul>
 </div>
 
 <script src="./dist/main.js"></script>
