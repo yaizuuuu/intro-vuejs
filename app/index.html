@@ -108,6 +108,91 @@
     </ul>
 </div>
 
+<div id="chapter2_11" v-cloak>
+    <!-- ref属性をつけておくことによって$refからDOMの現在の状況が取れる -->
+    <p ref="hello">Hello</p>
+
+    <!-- そのままタグが出力される -->
+    <a :href="url" v-pre>
+        Hello {{ message }}
+    </a>
+
+    <p v-once>{{ message }}</p>
+
+    <p v-text="message"></p>
+
+    <p v-html="htmlTag"></p>
+
+    <p v-cloak>{{ message }}</p>
+</div>
+
+
+<div id="chapter3_13">
+    <button @click="handleClick($event, 1)">click</button>
+
+    <!-- なぜか更新できない -->
+    <img src="image.png" @load="show=true" :class="{hide: !show}"/>
+
+    <input :value="message" @input="handleInput">
+
+    <div @click.right="handler">example</div>
+    <div @click.right.prevent="handler">example</div>
+
+    <div @click="handler('div1')">
+        div1
+        <a href="#top" @click.stop="handler('div2')">div2</a>
+    </div>
+
+    <div @click="handler('div1')">
+        div1
+        <a href="#top" @click.prevent="handler('div2')">div2</a>
+    </div>
+
+    <div @click.capture="handler('div1')">
+        div1
+        <div @click="handler('div2')">
+            div2
+            <div @click="handler('div3')">
+                div3
+                <div class="overlay" @click.self="close">...</div>
+            </div>
+        </div>
+    </div>
+
+    <input @keydown.53="handler">
+    <input @keydown.enter="handler">
+    <input @keydown.tab="handler">
+    <input @keydown.space="handler">
+    <input @keydown.up="handler">
+    <input @keydown.down="handler">
+    <input @keydown.up.right.down.left="handler">
+
+    <div @click.shift="doDelete">Delete</div>
+
+    <input v-model="message"/>
+    <p>{{ message }}</p>
+
+    <input type="checkbox" v-model="val"> {{ val }}
+    <input type="checkbox" v-model="val" true-value="yes" false-value="no"> {{ val }}
+
+    <label><input type="checkbox" v-model="arrayVal" value="A"> A</label>
+    <label><input type="checkbox" v-model="arrayVal" value="B"> B</label>
+    <label><input type="checkbox" v-model="arrayVal" value="C"> C</label>
+
+    <label><input type="radio" v-model="radio" value="a"> a</label>
+    <label><input type="radio" v-model="radio" value="b"> b</label>
+    <label><input type="radio" v-model="radio" value="c"> c</label>
+    {{ radio }}
+
+    <input type="file" @change="fileChange"/>
+    <div v-if="preview"><img :src="preview"></div>
+
+    <input type="range" v-model.number="range"/> {{ range }}
+</div>
+
+<div id="chapter3_15">
+    {{ scrollY ? "スクロールしたね" : "スクロールあんまりしてないね..." }}
+</div>
 <script src="./dist/main.js"></script>
 </body>
 </html>

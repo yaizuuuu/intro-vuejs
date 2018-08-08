@@ -131,16 +131,17 @@
         // module
         exports.push([
           module.i,
-          "body {\n  background: #ccc; }\n  body .bold {\n    font-weight: bold; }\n",
+          "[v-cloak] {\n  display: none; }\n\nbody {\n  background: #eee; }\n  body .bold {\n    font-weight: bold; }\n\n@-webkit-keyframes cloak-in {\n  0% {\n    opacity: 0; } }\n\n@keyframes cloak-in {\n  0% {\n    opacity: 0; } }\n\n#chapter2_11 {\n  -webkit-animation: cloak-in 1s;\n          animation: cloak-in 1s; }\n\n#chapter2_11[v-cloak] {\n  opacity: 0; }\n\nimg {\n  opacity: 1;\n  transition: opacity 1s; }\n\nimg.hide {\n  opacity: 0; }\n",
           "",
           {
             version: 3,
             sources: ["/app/src/index.scss"],
             names: [],
-            mappings: "AAAA;EACE,iBAAgB,EAKjB;EAND;IAII,kBAAiB,EAClB",
+            mappings:
+              "AAAA;EACE,cAAa,EACd;;AAED;EACE,iBAAgB,EAKjB;EAND;IAII,kBAAiB,EAClB;;AAGH;EACE;IACE,WAAU,EAAA,EAAA;;AAFd;EACE;IACE,WAAU,EAAA,EAAA;;AAId;EACE,+BAAsB;UAAtB,uBAAsB,EACvB;;AAED;EACE,WAAU,EACX;;AAED;EACE,WAAU;EACV,uBAAsB,EACvB;;AAED;EACE,WAAU,EACX",
             file: "index.scss",
             sourcesContent: [
-              "body {\n  background: #ccc;\n\n  .bold {\n    font-weight: bold;\n  }\n}"
+              "[v-cloak] {\n  display: none; }\n\nbody {\n  background: #eee; }\n  body .bold {\n    font-weight: bold; }\n\n@keyframes cloak-in {\n  0% {\n    opacity: 0; } }\n\n#chapter2_11 {\n  animation: cloak-in 1s; }\n\n#chapter2_11[v-cloak] {\n  opacity: 0; }\n\nimg {\n  opacity: 1;\n  transition: opacity 1s; }\n\nimg.hide {\n  opacity: 0; }\n"
             ],
             sourceRoot: ""
           }
@@ -13472,6 +13473,87 @@
           }
         });
         console.log(Chapter2x9);
+
+        var Chapter2x11 = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
+          el: "#chapter2_11",
+          data: {
+            message: "そのまま表示",
+            url: "https://www.google.com",
+            htmlTag: "Hello <strong>Vue.js!</strong>"
+          },
+          mounted: function mounted() {
+            console.log(this.$refs.hello);
+          }
+        });
+        console.log(Chapter2x11);
+
+        var Chapter3x13 = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
+          el: "#chapter3_13",
+          data: {
+            show: false,
+            message: "message",
+            val: false,
+            arrayVal: [],
+            radio: "",
+            preview: "",
+            range: 0
+          },
+          methods: {
+            handleClick: function handleClick(a, b) {
+              console.log(a, b);
+            },
+            handleInput: function handleInput(event) {
+              this.message = event.target.value;
+              console.log(this.message);
+            },
+            handler: function handler(comment) {
+              console.log(comment);
+            },
+            close: function close() {
+              console.log("only self");
+            },
+            doDelete: function doDelete() {
+              console.log("Delete");
+            },
+            fileChange: function fileChange(event) {
+              var file = event.target.files[0];
+              if (file && file.type.match(/^image\/(png|jpeg)$/)) {
+                this.preview = window.URL.createObjectURL(file);
+              }
+            }
+          }
+        });
+        console.log(Chapter3x13);
+
+        var Chapter3x15 = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
+          el: "#chapter3_15",
+          data: {
+            scrollY: 0,
+            timer: null
+          },
+          created: function created() {
+            window.addEventListener("scroll", this.handleScroll);
+          },
+          beforeDestroy: function beforeDestroy() {
+            window.removeEventListener("scroll", this.handleScroll);
+          },
+
+          methods: {
+            handleScroll: function handleScroll() {
+              var _this3 = this;
+
+              if (this.timer === null) {
+                this.timer = setTimeout(function() {
+                  console.log("test");
+                  _this3.scrollY = window.scrollY;
+                  clearTimeout(_this3.timer);
+                  _this3.timer = null;
+                }, 500);
+              }
+            }
+          }
+        });
+        console.log(Chapter3x15);
 
         /***/
       },
