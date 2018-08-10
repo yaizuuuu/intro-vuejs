@@ -1,5 +1,15 @@
 const { VueLoaderPlugin } = require("vue-loader");
 
+// 複数entryに対して複数outputを用意する
+const grob = require("glob");
+
+const entries = {};
+grob.sync(`${__dirname}/src/javascript/*.js`).forEach(file => {
+  const regEx = new RegExp("^.*/");
+  const key = file.replace(regEx, "");
+  entries[key] = file;
+});
+
 // [定数] webpack の出力オプションを指定します
 // 'production' か 'development' を指定
 const MODE = "development";
@@ -7,9 +17,7 @@ const MODE = "development";
 // ソースマップの利用有無(productionのときはソースマップを利用しない)
 const enabledSourceMap = MODE === "development";
 
-/**
- * TODO: module.exports の中身をproductionとdeveopmentで分けれるように別ファイルにする
- */
+// TODO: module.exports の中身をproductionとdeveopmentで分けれるように別ファイルにする
 module.exports = {
   // モード値を production に設定すると最適化された状態で、
   // development に設定するとソースマップ有効でJSファイルが出力される
@@ -22,13 +30,13 @@ module.exports = {
    * TODO: Chapterごとにファイルが分けられるようにentryとoutputを変更する
    */
   // メインとなるJavaScriptファイル（エントリーポイント）
-  entry: "./src/index.js",
+  entry: entries,
   // ファイルの出力設定
   output: {
     //  出力ファイルのディレクトリ名
     path: `${__dirname}/dist`,
     // 出力ファイル名
-    filename: "main.js"
+    filename: "[name]"
   },
 
   module: {
@@ -39,7 +47,28 @@ module.exports = {
 
       {
         test: /\.vue$/,
-        loader: "vue-loader"
+        loader: "vue-loader",
+        options: {
+          loaders: {
+            css: {
+              loader: "css-loader",
+              options: {
+                url: true,
+                sourceMap: enabledSourceMap,
+                minimize: !enabledSourceMap,
+                importLoaders: 2
+              }
+            },
+            postcss: [require("autoprefixer")({ grid: true })],
+            scss: {
+              loader: "sass-loader",
+              options: {
+                // ソースマップの利用有無
+                sourceMap: enabledSourceMap
+              }
+            }
+          }
+        }
       },
       /**
        * TODO: Babelの細かい設定とそれぞれの意味を覚える

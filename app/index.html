@@ -131,7 +131,7 @@
     <button @click="handleClick($event, 1)">click</button>
 
     <!-- なぜか更新できない -->
-    <img src="./src/test.jpeg" @load="show=true" :class="{hide: !show}"/>
+    <img src="./src/image/test.jpeg" @load="show=true" :class="{hide: !show}"/>
 
     <input :value="message" @input="handleInput">
 
@@ -218,6 +218,27 @@
         </li>
     </ul>
 </div>
-<script src="./dist/main.js"></script>
+
+<div id="chapter4_17">
+    <select v-model="current">
+        <option v-for="topic in topics" :value="topic.value">
+            {{ topic.name }}
+        </option>
+    </select>
+    <div v-for="item in list">{{ item.full_name }}</div>
+
+    <p>{{ price | localeNum }} 円</p>
+
+    <input v-focus/>
+
+    <button @click="video1 = true">再生</button>
+    <button @click="video1 = false">停止</button>
+    <video src="./src/movie/Raindrops_Video.mp4" v-video="video1"></video>
+
+    <button @click="video2 = true">再生</button>
+    <button @click="video2 = false">停止</button>
+    <video src="./src/movie/Raindrops_Video.mp4" v-video="video2"></video>
+</div>
+<script src="./dist/index.js"></script>
 </body>
 </html>
