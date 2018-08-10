@@ -1,4 +1,5 @@
 import Vue from "vue";
+import _ from "lodash";
 import "./index.scss";
 
 const Chapter1x1 = new Vue({
@@ -49,7 +50,7 @@ const Chapter2x8 = new Vue({
     // 属性をそのまま渡せる
     item: {
       id: 1,
-      src: "item1.jpg",
+      src: "./src/test.jpeg",
       alt: "商品1サムネイル",
       // width属性なら渡せる
       width: 250,
@@ -201,3 +202,62 @@ const Chapter3x15 = new Vue({
   }
 });
 console.log(Chapter3x15);
+
+const Chapter4x16 = new Vue({
+  el: "#chapter4_16",
+  data: {
+    width: 800,
+    height: 600,
+    budget: 300,
+    isOrder: false,
+    limit: 2,
+    list: [
+      { id: 1, name: "りんご", price: 200 },
+      { id: 2, name: "ばなな", price: 100 },
+      { id: 3, name: "いちご", price: 400 },
+      { id: 4, name: "オレンジ", price: 400 },
+      { id: 5, name: "めろん", price: 500 }
+    ]
+  },
+  computed: {
+    // 算出プロパティは組み合わせる事ができる
+    halfWidth: {
+      // 算出プロパティからフォームの値を受け取り、
+      // ゲッターセッターによる処理を加えることができる
+      get() {
+        return this.width / 2;
+      },
+      set(val) {
+        console.log(val);
+        this.width = val * 2;
+      }
+    },
+    halfHeight() {
+      return this.height / 2;
+    },
+    halfPoint() {
+      return {
+        x: this.halfWidth,
+        y: this.halfHeight
+      };
+    },
+    computedData() {
+      return Math.random();
+    },
+    matched() {
+      return this.list.filter(el => el.price <= this.budget);
+    },
+    sorted() {
+      return _.orderBy(this.matched, "price", this.isOrder ? "desc" : "asc");
+    },
+    limited() {
+      return this.sorted.slice(0, this.limit);
+    }
+  },
+  methods: {
+    methodsData() {
+      return Math.random();
+    }
+  }
+});
+console.log(Chapter4x16);

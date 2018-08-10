@@ -131,7 +131,7 @@
     <button @click="handleClick($event, 1)">click</button>
 
     <!-- なぜか更新できない -->
-    <img src="image.png" @load="show=true" :class="{hide: !show}"/>
+    <img src="./src/test.jpeg" @load="show=true" :class="{hide: !show}"/>
 
     <input :value="message" @input="handleInput">
 
@@ -191,7 +191,32 @@
 </div>
 
 <div id="chapter3_15">
-    {{ scrollY ? "スクロールしたね" : "スクロールあんまりしてないね..." }}
+    {{ scrollY ? `スクロールしたね${scrollY}` : `スクロールあんまりしてないね...${scrollY}` }}
+</div>
+
+<div id="chapter4_16">
+    <p>{{ width }}の半分は{{ halfWidth }}</p>
+    <p>{{ halfPoint.x }}</p>
+    <p>{{ halfPoint.y }}</p>
+    <input v-model.number="width"/> {{ width }}
+    <input v-model.number="halfWidth"/> {{ halfWidth }}
+
+    <p>{{ computedData }}</p>
+    <p>{{ computedData }}</p>
+    <p>{{ computedData }}</p>
+    <p>{{ methodsData() }}</p>
+    <p>{{ methodsData() }}</p>
+    <p>{{ methodsData() }}</p>
+
+    <input v-model.number="budget"/> 円以下に絞り込む
+    <input v-model.number="limit"/> 件を表示
+    <button @click="isOrder = !isOrder">{{ isOrder ? "昇順" : "降順" }}</button>
+    <p>{{ matched.length }} 件中 {{ limited.length }} 件を表示中</p>
+    <ul>
+        <li v-for="item in limited" :key="item.id">
+            {{ item.name }} {{ item.price }}
+        </li>
+    </ul>
 </div>
 <script src="./dist/main.js"></script>
 </body>
