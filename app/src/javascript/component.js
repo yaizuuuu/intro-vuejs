@@ -30,7 +30,22 @@ Vue.component("nest-parent", {
       ]
     };
   },
-  template: `<ul><nest-child v-for="item in list" :key="item.id" :name="item.name" :hp="item.hp"></nest-child></ul>`
+  methods: {
+    handleAttack(id) {
+      // findは参照渡しをする
+      const item = this.list.find(el => el.id === id);
+
+      if (item !== "undefined" && item.hp > 0) {
+        item.hp -= 10;
+      }
+    }
+  },
+  // objectを渡して、<nest-child v-bind="object">のようにも記述できる
+  template:
+    "<ul>" +
+    `<nest-child v-for="item in list" :key="item.id" :name="item.name" :hp="item.hp" @attack="handleAttack">` +
+    "</nest-child>" +
+    "</ul>"
 });
 
 Vue.component("nest-child", {
@@ -42,9 +57,55 @@ Vue.component("nest-child", {
     hp: {
       type: Number,
       default: 100
+    },
+    propA: {
+      type: Object,
+      default() {
+        return {
+          aaa: "bbb"
+        };
+      }
+    },
+    id: {
+      type: Number,
+      default: 1,
+      require: false,
+      validator(value) {
+        return value > 0;
+      }
     }
   },
-  template: "<li>{{ name }} HP.{{ hp }}</li>"
+  methods: {
+    doAttack() {
+      this.$emit("attack", this.id);
+    }
+  },
+  template:
+    "<li>{{ name }} HP.{{ hp }}" +
+    `<button @click="doAttack">攻撃する</button></li>`
+});
+
+Vue.component("parent-emit-component", {
+  methods: {
+    parentMethod() {
+      alert("アラートを受け取りました");
+    },
+    doTestAction() {
+      console.log(".nativeがついてないと受け取れないのよ");
+    }
+  },
+  // 親コンポーネントからイベントをバインドさせたい場合は.nativeをつけることで可能
+  template: `<child-emit-component @child-event="parentMethod" @click.native="doTestAction"></child-emit-component>`
+});
+
+Vue.component("child-emit-component", {
+  methods: {
+    handlerClick() {
+      // $emitで親に対してイベントを送信する
+      this.$emit("child-event");
+    }
+  },
+  template: `<button @click="handlerClick">イベントの送信</button>`
 });
 
 const myComponent = {
