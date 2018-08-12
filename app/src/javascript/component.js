@@ -253,6 +253,66 @@ Vue.component("sync-child", {
   template: `<div class="sync-child"><p>名前: {{ name }} HP: {{ hp }}</p><p>名前 <input v-model="localName"><p>HP <input v-model.number="localHp"></p></div>`
 });
 
+const mixin = {
+  created() {
+    this.hello();
+  },
+  methods: {
+    hello() {
+      console.log(`hello from ${this.components}`);
+    }
+  }
+};
+
+Vue.component("my-component-a", {
+  mixins: [mixin],
+  data() {
+    return {
+      components: "A"
+    };
+  },
+  template: `<div>componentA</div>`
+});
+
+Vue.component("my-component-b", {
+  mixins: [mixin],
+  data() {
+    return {
+      components: "B"
+    };
+  },
+  template: `<div>componentB</div>`
+});
+
+Vue.component("my-component-parent", {
+  data() {
+    return {
+      componentTypes: ["my-component-a", "my-component-b"],
+      current: 0
+    };
+  },
+  computed: {
+    component() {
+      return this.componentTypes[this.current];
+    }
+  },
+  // is属性により紐づく子コンポーネントを切り替えられる
+  template: `<div><button @click="current^=1">toggle</button><keep-alive><div :is="component"></div></keep-alive></div>`
+});
+
+Vue.component("functional-component", {
+  functional: true,
+  props: {
+    messenger: {
+      type: String,
+      default: "メッセージ"
+    }
+  },
+  render: (createElement, context) => {
+    return createElement("div", context.props.messenger);
+  }
+});
+
 const myComponent = {
   // 複数要素は登録できない
   // template: "<div><p>{{ message }}</p></div><div></div>",
