@@ -10567,14 +10567,24 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("parent-emit-component", {
       alert("アラートを受け取りました");
     },
     doTestAction: function doTestAction() {
+      // 子に対してイベントを送信するためには$refsを使用する
+      this.$refs.child.$emit("open");
       console.log(".nativeがついてないと受け取れないのよ");
     }
   },
   // 親コンポーネントからイベントをバインドさせたい場合は.nativeをつけることで可能
-  template: "<child-emit-component @child-event=\"parentMethod\" @click.native=\"doTestAction\"></child-emit-component>"
+  // 子にイベントを送信するためにref属性を付与する
+  template: "<child-emit-component @child-event=\"parentMethod\" @click.native=\"doTestAction\" ref=\"child\"></child-emit-component>"
 });
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("child-emit-component", {
+  created: function created() {
+    // 親からのイベントを受け取る際はonで紐付けを行う
+    this.$on("open", function () {
+      alert("親からのイベント送信を子が受け取る");
+    });
+  },
+
   methods: {
     handlerClick: function handlerClick() {
       // $emitで親に対してイベントを送信する
@@ -10582,6 +10592,128 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("child-emit-component", {
     }
   },
   template: "<button @click=\"handlerClick\">\u30A4\u30D9\u30F3\u30C8\u306E\u9001\u4FE1</button>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("parent-method", {
+  data: function data() {
+    return {
+      parentData: "親のデータ"
+    };
+  },
+
+  methods: {
+    parentMethod: function parentMethod(childArgs, parentArgs) {
+      // 子側のデータを第一引数で受け取れる($event)
+      console.log(childArgs, parentArgs);
+    }
+  },
+  template: "<child-method @child-method=\"parentMethod($event, parentData)\"></child-method>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("child-method", {
+  methods: {
+    childMethod: function childMethod() {
+      // 親に対して、子からデータを送信できる
+      this.$emit("child-method", { id: 1, name: "新しい名前" });
+    }
+  },
+  template: "<p @click=\"childMethod\">\u30C6\u30B9\u30C8\u3060\u3088\u301C</p>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("parent-slot", {
+  template: "<child-slot>" +
+  // slotタグのnameを合わせることで自由に変えられる
+  "<p slot=\"header\">" + "Hello Vue.js!!" + "</p>" + "Vue.jsはJavaScriptのフレームワーク" + "<footer slot=\"footer\">\u3053\u308C\u306F\u30D5\u30C3\u30BF\u30FC</footer>" + "<div slot=\"text1\"><p>\u3053\u3093\u306A</p><p>\u4F7F\u3044\u65B9\u3067\u3044\u3044\u306E\u304B\u306A</p></div>" + "</child-slot>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("child-slot", {
+  template: "<section class=\"slot-child\">" + "<header>" + "<slot name=\"header\">\u30C7\u30D5\u30A9\u30EB\u30C8\u30BF\u30A4\u30C8\u30EB</slot>" + "</header>" + "<div class=\"content\">" + "<slot>デフォルトコンテンツ</slot>" + "</div>" + "<slot name=\"footer\"><!-- \u4F55\u3082\u306A\u3051\u308C\u3070\u8868\u793A\u3057\u306A\u3044 --></slot>" +
+  // TODO テンプレートタグとslotをあわせた使い方を調べる
+  "<template slot=\"text1\">\u30C6\u30AD\u30B9\u30C81</template>" + "</section>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("scope-slot-child", {
+  data: function data() {
+    return {
+      list: ["カレー", "ハヤシ", "シチュー"]
+    };
+  },
+
+  template: "<div class=\"scope-slot-child\"><slot v-for=\"item in list\" :item=\"item\"></slot></div>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("scope-slot-parent", {
+  template: "<scope-slot-child>" +
+  // slot-scopeで子側のデータを受け取る
+  "<p slot-scope=\"args\">{{ args.item }}</p>" + "</scope-slot-child>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("parent-calender", {
+  template: "<child-calender v-model=\"date\"></child-calender>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("parent-calender", {
+  data: function data() {
+    return {
+      date: ""
+    };
+  },
+
+  template: "<child-calender v-model=\"date\"><p slot=\"ymd\">{{ date }}</p></child-calender>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("child-calender", {
+  methods: {
+    sendDate: function sendDate() {
+      this.$emit("input", new Date());
+    }
+  },
+  template: "<p @click=\"sendDate\">\u30AB\u30EC\u30F3\u30C0\u30FC<slot name=\"ymd\"></slot></p>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("sync-parent", {
+  data: function data() {
+    return {
+      name: "スライム",
+      hp: 50
+    };
+  },
+
+  // syncをつけることによって子からのデータをupdateイベントによって受け取れる
+  template: "<sync-child :name.sync=\"name\" :hp.sync=\"hp\"></sync-child>"
+});
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component("sync-child", {
+  props: {
+    name: {
+      type: String,
+      default: ""
+    },
+    hp: {
+      type: Number,
+      default: 0
+    }
+  },
+  computed: {
+    localName: {
+      get: function get() {
+        return this.name;
+      },
+      set: function set(val) {
+        // どの値をupdateするのかをコロン後に指定
+        this.$emit("update:name", val);
+      }
+    },
+    localHp: {
+      get: function get() {
+        return this.hp;
+      },
+      set: function set(val) {
+        this.$emit("update:hp", val);
+      }
+    }
+  },
+  template: "<div class=\"sync-child\"><p>\u540D\u524D: {{ name }} HP: {{ hp }}</p><p>\u540D\u524D <input v-model=\"localName\"><p>HP <input v-model.number=\"localHp\"></p></div>"
 });
 
 var myComponent = {
