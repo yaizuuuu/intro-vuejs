@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="chapter6-28">
+    <button @click="show = !show">切り替え</button>
+    <transition mode="in-out">
+        <div v-if="show" key="true">TRUE</div>
+        <div v-else="show" key="false">FALSE</div>
+    </transition>
+
+    <button @click="++count">切り替え</button>
+    <transition mode="out-in">
+        <div :key="count">{{ count }}</div>
+    </transition>
+
+    <button @click="order = !order">並び替え</button>
+    <transition-group tag="ul" class="list">
+        <li v-for="item in sortedList" :key="item.id">
+            {{ item.id }} {{ item.name }} {{ item.price }}円
+        </li>
+    </transition-group>
+
+    <my-circle></my-circle>
+</div>
+
+<script src="./dist/transition.js"></script>
+</body>
+</html>
