@@ -9,12 +9,14 @@
         tag="button"
         exact>Home
       </router-link>
-      <router-link to="/product">商品情報</router-link>
-      <router-link :to="{ path: '/product', query: { page: 1 } }">商品情報</router-link>
+      <router-link to="/product">商品一覧</router-link>
+      <!-- queryはパラを付与する -->
+      <!--<router-link :to="{ path: '/product', query: { page: 1 } }">商品情報</router-link>-->
+      <!-- paramsで受け取る場合はnameを指定しないと受け取れない -->
       <router-link :to="{ name: 'product', params: { id: 1 } }">商品情報</router-link>
-      <router-link :to="{ path: '/product', params: { id: 1 } }">商品情報</router-link>
+      <!-- つまりこれは受け取れない -->
+      <!--<router-link :to="{ path: '/product', params: { id: 1 } }">商品情報</router-link>-->
     </nav>
-
     <router-view/>
   </div>
 </template>
