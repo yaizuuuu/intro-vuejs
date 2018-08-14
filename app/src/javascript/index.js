@@ -323,4 +323,5 @@ const Chapter4x17 = new Vue({
     }
   }
 });
+
 console.log(Chapter4x17);

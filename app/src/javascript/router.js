@@ -7,8 +7,10 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
-    { path: "/", component: Home },
-    { path: "/product", component: Product }
+    { name: "home", path: "/", component: Home },
+    { name: "products", path: "/product", component: Product },
+    { name: "product", path: "/product/:id", component: Product },
+    { path: "/a", redirect: "/" }
   ]
 });
 
