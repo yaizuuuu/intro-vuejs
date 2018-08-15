@@ -27,10 +27,26 @@ const moduleB = {
   }
 };
 
+const view = {
+  namespaced: true,
+  state: {
+    loading: false
+  },
+  mutations: {
+    start(state) {
+      state.loading = true;
+    },
+    end(state) {
+      state.loading = false;
+    }
+  }
+};
+
 const store = new Vuex.Store({
   modules: {
     moduleA,
-    moduleB
+    moduleB,
+    view
   },
   state: {
     message: "初期メッセージ"

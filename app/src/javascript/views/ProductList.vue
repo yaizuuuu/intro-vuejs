@@ -15,12 +15,12 @@
 import products from "../api/products";
 
 export default {
+  beforeRouteEnter(to, from, next) {
+    setTimeout(next, 1000);
+  },
   name: "ProductList",
   computed: {
     list: () => products.fetch()
   }
 };
 </script>
-
-<style scoped>
-</style>
